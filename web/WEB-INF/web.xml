@@ -4,14 +4,4 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-    <!-- admin servlet -->
-    <servlet>
-        <servlet-name>admin</servlet-name>
-        <servlet-class>servlets.AdminServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>admin</servlet-name>
-        <url-pattern>/admin</url-pattern>
-    </servlet-mapping>
 </web-app>
