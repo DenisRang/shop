@@ -15,7 +15,7 @@ import java.io.PrintWriter;
                 @WebInitParam(name = "LOGIN", value = "admin"),
                 @WebInitParam(name = "PASSWORD", value = "password")
         })
-public class AdminServlet extends HttpServlet {
+public class ShoppingCartServlet extends HttpServlet {
     private String accessKey;
     private String login;
     private String password;
