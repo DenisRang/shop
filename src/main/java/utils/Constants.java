@@ -4,7 +4,7 @@ public final class Constants {
 
     public static final String CURRENT_SHOPPING_CART = "CURRENT_SHOPPING_CART";
     public static final int SHOPPING_CART_MAX_CAPACITY = 20;
-        public static final int SHOPPING_CART_PRODUCT_MAX_COUNT = 10;
+    public static final int SHOPPING_CART_PRODUCT_MAX_COUNT = 10;
 
     public enum Cookie {
 

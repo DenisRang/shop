@@ -1,11 +1,14 @@
 package utils;
 
+import com.sun.istack.internal.Nullable;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public final class WebUtils {
 
+    @Nullable
     public static Cookie findCookie(HttpServletRequest req, String cookieName) {
         Cookie[] cookies = req.getCookies();
         if (cookies != null) {

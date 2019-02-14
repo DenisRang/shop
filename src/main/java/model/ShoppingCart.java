@@ -1,5 +1,7 @@
 package model;
 
+import com.sun.istack.internal.Nullable;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -14,26 +16,39 @@ public class ShoppingCart {
 
     void addProduct(int idProduct, int count) throws ValidationException {
         ShoppingCartItem product = getShoppingCartItem(idProduct);
-        if (checkShoppingCartCapacity()) {
-            product.addProduct(count);
-            shoppingCartItems.add(product);
+        if (product == null) {
+            if (checkShoppingCartCapacity()) {
+                shoppingCartItems.add(new ShoppingCartItem(idProduct, count));
+            } else {
+                throw new ValidationException();
+            }
         } else {
-            throw new ValidationException();
+            product.addProduct(count);
         }
     }
 
-    public void removeProduct(Integer idProduct, int count){
-
+    public void removeProduct(Integer idProduct, int count) {
+        ShoppingCartItem product = getShoppingCartItem(idProduct);
+        if (product.getCount() > count) {
+            product.removeProduct(count);
+        } else {
+            shoppingCartItems.remove(product);
+        }
     }
 
-    public Collection<ShoppingCartItem> getItems(){
+    public Collection<ShoppingCartItem> getItems() {
         return shoppingCartItems;
     }
 
-    public int getTotalCount(){
-        return shoppingCartItems.size();
+    public int getTotalCount() {
+        int totalCount = 0;
+        for (ShoppingCartItem product : shoppingCartItems) {
+            totalCount += product.getCount();
+        }
+        return totalCount;
     }
 
+    @Nullable
     private ShoppingCartItem getShoppingCartItem(int idProduct) {
         ShoppingCartItem result = null;
         for (ShoppingCartItem product : shoppingCartItems) {
@@ -48,5 +63,14 @@ public class ShoppingCart {
         return shoppingCartItems.size() < SHOPPING_CART_MAX_CAPACITY;
     }
 
+    public String shoppingCartToString(){
+        return "ShoppingCart{" +
+                "shoppingCartItems=" + shoppingCartItems +
+                '}';
+    };
+
+    public static ShoppingCart shoppingCartFromString(String cookieValue){
+
+    }
 
 }
