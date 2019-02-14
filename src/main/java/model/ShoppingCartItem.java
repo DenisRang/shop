@@ -1,49 +1,40 @@
 package model;
 
-import static utils.Constants.SHOPPING_CART_PRODUCT_MAX_COUNT;
+import java.io.Serializable;
 
-public class ShoppingCartItem {
+public class ShoppingCartItem implements Serializable {
     private int idProduct;
     private int count;
 
-    public ShoppingCartItem(int idProduct, int count) throws ValidationException {
+    public ShoppingCartItem() {
+        super();
+    }
+
+    public ShoppingCartItem(int idProduct, int count) {
+        super();
         this.idProduct = idProduct;
-        increaseCount(count);
-    }
-
-    @Override
-    public String toString() {
-        return "ShoppingCartItem{" +
-                "idProduct=" + idProduct +
-                ", count=" + count +
-                '}';
-    }
-
-    public void addProduct(int count) throws ValidationException {
-        increaseCount(count);
-    }
-
-    public void removeProduct(int count) {
-        this.count -= count;
+        this.count = count;
     }
 
     public int getIdProduct() {
         return idProduct;
     }
 
+    public void setIdProduct(int idProduct) {
+        this.idProduct = idProduct;
+    }
+
     public int getCount() {
         return count;
     }
 
-    private boolean checkProductCount(int count) {
-        return this.count + count <= SHOPPING_CART_PRODUCT_MAX_COUNT;
+    public void setCount(int count) {
+        this.count = count;
     }
 
-    private void increaseCount(int count) throws ValidationException {
-        if (checkProductCount(count)) {
-            this.count += count;
-        } else {
-            throw new ValidationException();
-        }
+    @Override
+    public String toString() {
+        return "ShoppingCartItem [idProduct=" + idProduct + ", count=" + count + "]";
     }
 }
+
