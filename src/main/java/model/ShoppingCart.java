@@ -47,15 +47,15 @@ public class ShoppingCart implements Serializable {
     }
 
     private void validateProductCount(int count) {
-        if(count > Constants.MAX_PRODUCT_COUNT_PER_SHOPPING_CART){
-            throw new ValidationException("Limit for product count reached: count="+count);
+        if (count > Constants.MAX_PRODUCT_COUNT_PER_SHOPPING_CART) {
+            throw new ValidationException("Limit for product count reached: count=" + count);
         }
     }
 
-    private void validateShoppingCartSize(int idProduct){
-        if(products.size() > Constants.MAX_PRODUCTS_PER_SHOPPING_CART ||
+    private void validateShoppingCartSize(int idProduct) {
+        if (products.size() > Constants.MAX_PRODUCTS_PER_SHOPPING_CART ||
                 (products.size() == Constants.MAX_PRODUCTS_PER_SHOPPING_CART && !products.containsKey(idProduct))) {
-            throw new ValidationException("Limit for ShoppingCart size reached: size="+products.size());
+            throw new ValidationException("Limit for ShoppingCart size reached: size=" + products.size());
         }
     }
 
@@ -69,5 +69,13 @@ public class ShoppingCart implements Serializable {
     @Override
     public String toString() {
         return String.format("ShoppingCart [products=%s, totalCount=%s]", products, totalCount);
+    }
+
+    public String getView() {
+        StringBuilder r = new StringBuilder();
+        for (ShoppingCartItem shoppingCartItem : getItems()) {
+            r.append(shoppingCartItem.getIdProduct()).append("-&gt;").append(shoppingCartItem.getCount()).append("<br>");
+        }
+        return r.toString();
     }
 }

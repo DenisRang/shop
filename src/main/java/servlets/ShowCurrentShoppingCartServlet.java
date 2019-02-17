@@ -33,13 +33,7 @@ public class ShowCurrentShoppingCartServlet extends HttpServlet {
     }
 
     protected void showShoppingCart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (SessionUtils.isCurrentShoppingCartCreated(req)) {
-            ShoppingCart shoppingCart=SessionUtils.getCurrentShoppingCart(req);
-            req.setAttribute("shoppingCart",shoppingCart);
-            req.getRequestDispatcher("/WEB-INF/shopping-cart.jsp").forward(req, resp);
-        } else {
-            resp.getWriter().println("ShoppingCart is null");
-        }
+        req.getRequestDispatcher("/WEB-INF/shopping-cart.jsp").forward(req, resp);
     }
 
     protected void addProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
