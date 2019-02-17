@@ -34,7 +34,7 @@ public class ShoppingCartItem implements Serializable {
 
     @Override
     public String toString() {
-        return "ShoppingCartItem [idProduct=" + idProduct + ", count=" + count + "]";
+        return String.format("%s->%s", idProduct, count);
     }
 }
 
