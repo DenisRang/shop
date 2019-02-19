@@ -43,13 +43,7 @@ public class ShowCurrentShoppingCartServlet extends HttpServlet {
     }
 
     protected void sync(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (!SessionUtils.isCurrentShoppingCartCreated(req)) {
-            Cookie cookie = SessionUtils.findShoppingCartCookie(req);
-            if (cookie != null) {
-                ShoppingCart shoppingCart = shoppingCartFromString(cookie.getValue());
-                SessionUtils.setCurrentShoppingCart(req, shoppingCart);
-            }
-        } else {
+        if (SessionUtils.isCurrentShoppingCartCreated(req)) {
             ShoppingCart shoppingCart = SessionUtils.getCurrentShoppingCart(req);
             String cookieValue = shoppingCartToString(shoppingCart);
             SessionUtils.updateCurrentShoppingCartCookie(cookieValue, resp);
@@ -65,21 +59,5 @@ public class ShowCurrentShoppingCartServlet extends HttpServlet {
             res.deleteCharAt(res.length() - 1);
         }
         return res.toString();
-    }
-
-    protected ShoppingCart shoppingCartFromString(String cookieValue) {
-        ShoppingCart shoppingCart = new ShoppingCart();
-        String[] items = cookieValue.split("\\|");
-        for (String item : items) {
-            String data[] = item.split("-");
-            try {
-                int idProduct = Integer.parseInt(data[0]);
-                int count = Integer.parseInt(data[1]);
-                shoppingCart.addProduct(idProduct, count);
-            } catch (RuntimeException e) {
-                e.printStackTrace();
-            }
-        }
-        return shoppingCart;
     }
 }
