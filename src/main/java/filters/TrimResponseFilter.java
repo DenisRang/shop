@@ -1,45 +1,43 @@
 package filters;
 
-import model.ShoppingCart;
-import utils.SessionUtils;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
 
-@WebFilter(filterName = "TrimResponseFilter")
+@WebFilter({"/trim", "/trim-params.html"})
 public class TrimResponseFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println("ds");
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
-        ServletResponseWrapper responseWrapper = new ServletResponseWrapper(response);
-
-        //response.get
-        filterChain.doFilter(servletRequest, responseWrapper);
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
+            throws IOException, ServletException {
+        TrimResponse response = new TrimResponse((HttpServletResponse) resp);
+        chain.doFilter(req, response);
+        response.complete();
     }
 
     @Override
     public void destroy() {
-        System.out.println("ds");
     }
 
-    private class TrimResponseWrapper extends HttpServletResponseWrapper {
+    private static class TrimResponse extends HttpServletResponseWrapper {
+        private TrimProxyWriter trimProxyWriter;
 
-        public TrimResponseWrapper(HttpServletResponse response) {
+        private TrimResponse(HttpServletResponse response) throws IOException {
             super(response);
+            trimProxyWriter = new TrimProxyWriter(response.getWriter());
+        }
+
+        @Override
+        public PrintWriter getWriter() throws IOException {
+            return new PrintWriter(trimProxyWriter);
         }
 
         @Override
@@ -52,19 +50,22 @@ public class TrimResponseFilter implements Filter {
 
                 @Override
                 public void setWriteListener(WriteListener writeListener) {
-
                 }
 
                 @Override
                 public void write(int b) throws IOException {
                     trimProxyWriter.write(b);
                 }
-            }
+            };
+        }
+
+        private void complete() throws IOException {
+            setContentLength(trimProxyWriter.getLength());
+            trimProxyWriter.complete();
         }
     }
 
-    private class TrimProxyWriter extends Writer {
-
+    private static class TrimProxyWriter extends Writer {
         private final Writer wr;
         private int length;
 
@@ -87,27 +88,29 @@ public class TrimResponseFilter implements Filter {
         }
 
         @Override
-        public void write(String s) throws IOException {
-            for (int i = 0; i < s.length(); i++) {
-                processChar(s.charAt(i));
+        public void write(String str, int off, int len) throws IOException {
+            for (int i = off; i < len; i++) {
+                processChar(str.charAt(i));
+            }
+        }
+
+        private void processChar(char ch) throws IOException {
+            if (ch != '\t' && ch != '\r' && ch != '\n') {
+                wr.write(ch);
+                length++;
             }
         }
 
         @Override
         public void flush() throws IOException {
-
         }
 
         @Override
         public void close() throws IOException {
-
         }
 
-        private void processChar(char c) throws IOException {
-            if (c != '\t' && c != '\r' && c != '\n') {
-                wr.write(c);
-                length++;
-            }
+        private int getLength() {
+            return length;
         }
 
         private void complete() throws IOException {
@@ -116,9 +119,6 @@ public class TrimResponseFilter implements Filter {
         }
     }
 }
-
-
-
 
 
 
