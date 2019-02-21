@@ -1,7 +1,7 @@
-package filters;
+package filter;
 
 import model.ShoppingCart;
-import utils.SessionUtils;
+import util.SessionUtils;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

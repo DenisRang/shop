@@ -1,6 +1,6 @@
 package model;
 
-import utils.Constants;
+import util.Constants;
 
 import java.io.Serializable;
 import java.util.Collection;
