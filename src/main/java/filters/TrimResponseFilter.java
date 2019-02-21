@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 
-@WebFilter({"/trim", "/trim-params.html"})
+@WebFilter({"/trim", "/shopping-cart"})
 public class TrimResponseFilter implements Filter {
 
     @Override
