@@ -6,3 +6,4 @@ Products: <br>${CURRENT_SHOPPING_CART.view}
 <% } else {%>
 Shopping cart is null
 <% } %>
+

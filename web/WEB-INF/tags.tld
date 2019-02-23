@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<taglib>
+
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.3</jsp-version>
+    <short-name>tags</short-name>
+
+    <tag>
+        <name>forEach</name>
+        <tag-class>tags.ForEachTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>var</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>items</name>
+            <required>false</required>
+            <type>java.lang.Object</type>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>attr</name>
+        <tag-class>tags.AttrTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>condition</name>
+            <required>true</required>
+            <type>java.lang.Boolean</type>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>switch</name>
+        <tag-class>tags.SwitchTag</tag-class>
+        <body-content>tagdependent</body-content>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.Object</type>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>case</name>
+        <tag-class>tags.CaseTag</tag-class>
+        <body-content>tagdependent</body-content>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <type>java.lang.Object</type>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>default</name>
+        <tag-class>tags.DefaultTag</tag-class>
+        <body-content>tagdependent</body-content>
+    </tag>
+
+
+</taglib>
